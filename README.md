@@ -1,50 +1,120 @@
+
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank">
+    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" />
+  </a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+<p align="center">A RESTful API for processing payments via Stripe (Visa, Mastercard, Amex) and PayPal, built with <a href="http://nestjs.com" target="_blank">NestJS</a>.</p>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
+<p align="center">
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank">
+    <img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" />
+  </a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank">
+    <img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" />
+  </a>
+  <a href="https://www.npmjs.com/~nestjscore" target="_blank">
+    <img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" />
+  </a>
+  <a href="https://circleci.com/gh/nestjs/nest" target="_blank">
+    <img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" />
+  </a>
+  <a href="https://discord.gg/G7Qnnhy" target="_blank">
+    <img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord" />
+  </a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Description
 
-## Project setup
+This project provides a secure and scalable API to handle payments via:
+
+- 💳 Stripe (Visa, Mastercard, Amex)
+- 💰 PayPal
+
+It is built using the [NestJS](https://nestjs.com) framework and supports the latest features of Node.js.
+
+---
+
+## 📦 Installation
 
 ```bash
 $ npm install
 ```
 
-## Compile and run the project
+---
+
+## 🔧 Environment Variables
+
+Create a `.env` file in the root of your project and add the following:
+
+```env
+# Stripe
+STRIPE_SECRET_KEY=your_stripe_secret_key
+
+# PayPal
+PAYPAL_CLIENT_ID=your_paypal_client_id
+PAYPAL_CLIENT_SECRET=your_paypal_client_secret
+PAYPAL_MODE=sandbox # or 'live'
+```
+
+---
+
+## 📍 API Endpoints
+
+### Stripe Payment
+
+```
+POST /payments/card
+```
+
+**Request Body (JSON)**:
+
+```json
+{
+  "amount": 2000,
+  "currency": "usd",
+  "token": "tok_visa",
+  "description": "Sample payment via Visa"
+}
+```
+
+### PayPal Payment
+
+```
+POST /payments/paypal
+```
+
+**Request Body (JSON)**:
+
+```json
+{
+  "amount": 49.99,
+  "currency": "usd",
+  "description": "Test order from PayPal"
+}
+```
+
+---
+
+## 🚀 Running the App
 
 ```bash
 # development
 $ npm run start
 
-# watch mode
+# watch mode (hot reload)
 $ npm run start:dev
 
-# production mode
+# production
 $ npm run start:prod
 ```
 
-## Run tests
+---
+
+## 🧪 Running Tests
 
 ```bash
 # unit tests
@@ -57,42 +127,44 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📬 Postman Collection
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+You can import a ready-to-use Postman collection from the `/docs` folder to test all endpoints quickly.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+---
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🛠 Technologies
 
-## Resources
+- [NestJS](https://nestjs.com)
+- [Stripe SDK](https://stripe.com/docs/api)
+- [PayPal SDK](https://developer.paypal.com/docs/api/overview/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [dotenv](https://www.npmjs.com/package/dotenv)
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## 👨‍💻 Author
 
-## Support
+- Created by [Joaquín Orihuela](https://github.com/tu-perfil)  
+- Inspired by modern payment systems & secure financial APIs
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## 📝 License
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+This project is [MIT licensed](LICENSE).
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 💬 Support & Contributions
+
+- Found a bug or need a feature? Open an [issue](https://github.com/tu-repo/issues)
+- Want to contribute? Submit a [pull request](https://github.com/tu-repo/pulls)
+
+---
+
+## ⭐ Star the project
+
+If you find this helpful, please consider giving it a ⭐ on GitHub!
