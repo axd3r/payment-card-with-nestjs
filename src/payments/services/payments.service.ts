@@ -42,6 +42,10 @@ export class PaymentsService {
         payment_method: dto.token,
         confirm: true,
         description: dto.description,
+        automatic_payment_methods: {
+          enabled: true,
+          allow_redirects: 'never',
+        },
       });
 
       return {
