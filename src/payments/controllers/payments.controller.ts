@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
+/* import { Controller, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PaymentsService } from '../services/payments.service';
 import { CreateCardPaymentDto } from '../dto/create-card-payment.dto';
 import { CreatePaypalPaymentDto } from '../dto/create-paypal-payment.dto';
@@ -19,3 +19,4 @@ export class PaymentsController {
     return this.paymentsService.createPaypalPayment(dto);
   }
 }
+ */

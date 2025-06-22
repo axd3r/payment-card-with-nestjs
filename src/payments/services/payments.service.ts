@@ -1,18 +1,20 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { CreateCardPaymentDto } from '../dto/create-card-payment.dto';
 import { CreatePaypalPaymentDto } from '../dto/create-paypal-payment.dto';
 import Stripe from 'stripe';
 import * as paypal from '@paypal/checkout-server-sdk';
 import { toTwoDecimals } from '../utils/currency.util';
 
+// 👇 Importamos correctamente la clase OrdersCreateRequest
+import { OrdersCreateRequest } from '@paypal/checkout-server-sdk/lib/orders/ordersCreateRequest.js';
+
 @Injectable()
 export class PaymentsService {
   private stripe: Stripe;
   private paypalClient: paypal.core.PayPalHttpClient;
 
-  constructor(private configService: ConfigService) {
-    const stripeSecret = this.configService.get<string>('STRIPE_SECRET_KEY');
+  constructor() {
+    const stripeSecret = process.env.STRIPE_SECRET_KEY;
 
     if (!stripeSecret) {
       throw new Error('Stripe API key not configured in .env');
@@ -22,9 +24,13 @@ export class PaymentsService {
       apiVersion: '2025-05-28.basil',
     });
 
-    const paypalMode = this.configService.get<string>('PAYPAL_MODE') || 'sandbox';
-    const paypalClientId = this.configService.get<string>('PAYPAL_CLIENT_ID');
-    const paypalClientSecret = this.configService.get<string>('PAYPAL_CLIENT_SECRET');
+    const paypalMode = process.env.PAYPAL_MODE || 'sandbox';
+    const paypalClientId = process.env.PAYPAL_CLIENT_ID;
+    const paypalClientSecret = process.env.PAYPAL_CLIENT_SECRET;
+
+    if (!paypalClientId || !paypalClientSecret) {
+      throw new Error('PayPal credentials not configured in .env');
+    }
 
     const environment =
       paypalMode === 'live'
@@ -61,7 +67,8 @@ export class PaymentsService {
 
   async createPaypalPayment(dto: CreatePaypalPaymentDto) {
     try {
-      const request = new paypal.orders.OrdersCreateRequest();
+      const request = new OrdersCreateRequest();
+
       request.requestBody({
         intent: 'CAPTURE',
         purchase_units: [

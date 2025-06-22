@@ -1,14 +1,5 @@
-import { IsString, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
-
-export class CreatePaypalPaymentDto {
-  @IsNumber()
+export interface CreatePaypalPaymentDto {
   amount: number;
-
-  @IsString()
-  @IsIn(['usd', 'eur'])
-  currency: string;
-
-  @IsString()
-  @IsNotEmpty()
-  description: string;
+  currency: 'usd' | 'eur';
+  description?: string;
 }

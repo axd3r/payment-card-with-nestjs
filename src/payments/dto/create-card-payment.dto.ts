@@ -1,17 +1,6 @@
-import { IsString, IsNotEmpty, IsNumber, IsIn } from 'class-validator';
-
-export class CreateCardPaymentDto {
-  @IsNumber()
+export interface CreateCardPaymentDto {
   amount: number;
-
-  @IsString()
-  @IsIn(['usd', 'eur'])
-  currency: string;
-
-  @IsString()
-  @IsNotEmpty()
+  currency: 'usd' | 'eur';
   token: string;
-
-  @IsString()
-  description: string;
+  description?: string;
 }
