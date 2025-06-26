@@ -4,16 +4,20 @@ import { CreatePaypalPaymentDto } from '../dto/create-paypal-payment.dto';
 import Stripe from 'stripe';
 import * as paypal from '@paypal/checkout-server-sdk';
 import { toTwoDecimals } from '../utils/currency.util';
-
-// 👇 Importamos correctamente la clase OrdersCreateRequest
+import { Payment, PaymentDocument } from '../entities/payment.entity';
 import { OrdersCreateRequest } from '@paypal/checkout-server-sdk/lib/orders/ordersCreateRequest.js';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class PaymentsService {
   private stripe: Stripe;
   private paypalClient: paypal.core.PayPalHttpClient;
 
-  constructor() {
+  constructor(
+    @InjectModel(Payment.name)
+    private paymentModel: Model<PaymentDocument>
+  ) {
     const stripeSecret = process.env.STRIPE_SECRET_KEY;
 
     if (!stripeSecret) {
@@ -54,6 +58,14 @@ export class PaymentsService {
         },
       });
 
+      await this.paymentModel.create({
+        provider: 'stripe',
+        paymentId: paymentIntent.id,
+        status: paymentIntent.status,
+        amount: paymentIntent.amount,
+        currency: paymentIntent.currency,
+      });
+
       return {
         id: paymentIntent.id,
         status: paymentIntent.status,
@@ -83,6 +95,16 @@ export class PaymentsService {
       });
 
       const response = await this.paypalClient.execute(request);
+
+      await this.paymentModel.create({
+        provider: 'paypal',
+        paymentId: response.result.id,
+        status: response.result.status,
+        amount: parseFloat(dto.amount.toFixed(2)),
+        currency: dto.currency.toLowerCase(),
+        description: dto.description,
+      });
+      
       return {
         id: response.result.id,
         status: response.result.status,

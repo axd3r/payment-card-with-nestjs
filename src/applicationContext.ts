@@ -1,4 +1,4 @@
-import 'dotenv/config'; // 👈 Necesario para que ConfigService tenga valores
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { PaymentsService } from './payments/services/payments.service';
